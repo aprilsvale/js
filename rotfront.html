@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./test.css">
+    <link rel="stylesheet" href="./rotfront.css">
 </head>
 <body>
     <h1>Тест на знание РотФронт</h1>
@@ -22,7 +22,7 @@
                 <input type="text" id="input-answer" placeholder="Введите ваш ответ...">
                 <button id="submit-answer">Ответить</button>
             </div>
-            <div id="feedback" class="feedback"></div>
+            <div id="feedback"></div>
         </div>
         <div id="result-container">
             <h2>Результаты теста</h2>
@@ -37,7 +37,7 @@
                 question: "Что из перечисленного не является конфетой РотФронт?",
                 answers: [
                     { text: "Москвичка;", correct: false },
-                    { text: "Барбирис;", correct: false },
+                    { text: "Барбарис;", correct: false },
                     { text: "Лимончики;", correct: false },
                     { text: "Мишка на Севере;", correct: true }
                 ],
@@ -101,6 +101,8 @@
 
         function startQuiz() {
             startContainer.style.display = 'none';
+            restartBtn.style.display = 'none';
+            resultContainer.style.display = 'none';
             questionContainer.style.display = 'block';
             showQuestion();
         }
@@ -125,18 +127,29 @@
                 answersElement.style.display = 'none';
                 inputContainer.style.display = 'block';
                 inputAnswer.value = '';
-                submitAnswerBtn.onclick = () => checkInputAnswer(question.correctAnswer);
-            }
+                submitAnswerBtn.onclick = () => {
+                const value = inputAnswer.value.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+            .replace(/\s+/g, ' ');
+            
+                if (!value) {
+                    inputAnswer.style.borderColor = 'red';
+                    feedbackElement.textContent = 'Хотели одурачить нас?!';
+                    return;
+                } else {
+                    inputAnswer.style.borderColor = '';
+                    checkInputAnswer(question.correctAnswer);
+                }
+            };
         }
+    }
 
         function selectAnswer(isCorrect) {
-            if (isCorrect) {
+            if (isCorrect){
                 feedbackElement.textContent = 'Гуд';
                 score++;
-            } else {
+            } else {  
                 feedbackElement.textContent = 'Отнюдь!';
             }
-            
             setTimeout(nextQuestion, 1000);
         }
 
@@ -166,6 +179,7 @@
         function showResult() {
             questionContainer.style.display = 'none';
             resultContainer.style.display = 'block';
+            restartBtn.style.display = 'block';
             
             const percentage = Math.round((score / questions.length) * 100);
             scoreElement.textContent = `Вы ответили правильно на ${score} из ${questions.length} вопросов. (${percentage}%)`;
@@ -175,7 +189,7 @@
             } else if (percentage >= 50) {
                 resultMessageElement.textContent = 'Нехило, но не тру фан!';
             } else {
-                resultMessageElement.textContent = 'Вы на карандаше...';
+                resultMessageElement.textContent = 'Вы на карандаше... - извините(сь)';
             }
         }
 
