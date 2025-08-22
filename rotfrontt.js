@@ -1,4 +1,4 @@
-            const questions = [
+const questions = [
     {
         question: "Что из перечисленного не является конфетой РотФронт?",
         answers: [
@@ -63,6 +63,7 @@ const restartBtn = document.getElementById('restart-btn');
 let currentQuestionIndex = 0;
 let score = 0;
 
+// Функция для обработки отправки ответа
 function handleSubmitAnswer() {
     const question = questions[currentQuestionIndex];
     const value = inputAnswer.value.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
@@ -104,12 +105,11 @@ function showQuestion() {
             button.addEventListener('click', function() {
                 const allButtons = answersElement.querySelectorAll('button');
                 allButtons.forEach(btn => {
-                    btn.style.pointerEvents = 'none';
+                    btn.disabled = true;
                     btn.style.cursor = 'not-allowed';
                     btn.style.opacity = '0.7';
-                    btn.style.backgroundColor = '';
                 });
-                selectAnswer(answer.correct, button);
+                selectAnswer(answer.correct);
             });
             answersElement.appendChild(button);
         });
@@ -118,6 +118,7 @@ function showQuestion() {
         inputContainer.style.display = 'block';
         inputAnswer.value = '';
         
+        // Добавляем обработчик только один раз при первом показе
         if (!submitAnswerBtn.hasListener) {
             submitAnswerBtn.addEventListener('click', handleSubmitAnswer);
             submitAnswerBtn.hasListener = true;
@@ -125,11 +126,10 @@ function showQuestion() {
     }
 }
 
-function selectAnswer(isCorrect, button) {
+function selectAnswer(isCorrect) {
     if (isCorrect){
         feedbackElement.textContent = 'Гуд';
         score++;
-        button.style.backgroundColor = 'green';
     } else {  
         feedbackElement.textContent = 'Отнюдь!';
     }
@@ -184,6 +184,7 @@ function restartQuiz() {
     resultContainer.style.display = 'none';
     startContainer.style.display = 'block';
     
+    // Удаляем обработчик при перезапуске
     submitAnswerBtn.removeEventListener('click', handleSubmitAnswer);
     submitAnswerBtn.hasListener = false;
 }
