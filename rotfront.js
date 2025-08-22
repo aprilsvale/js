@@ -104,10 +104,8 @@ function showQuestion() {
             button.addEventListener('click', function() {
                 const allButtons = answersElement.querySelectorAll('button');
                 allButtons.forEach(btn => {
-                    btn.style.pointerEvents = 'none';
-                    btn.style.cursor = 'not-allowed';
-                    btn.style.opacity = '0.7';
-                    btn.style.backgroundColor = '';
+                    btn.classList.add('disabled-button');
+                    btn.classList.remove('correct-button');
                 });
                 selectAnswer(answer.correct, button);
             });
@@ -126,10 +124,12 @@ function showQuestion() {
 }
 
 function selectAnswer(isCorrect, button) {
+    console.log('Button before:', button.className);
     if (isCorrect){
         feedbackElement.textContent = 'Гуд';
         score++;
-        button.style.backgroundColor = 'green';
+        button.classList.add('correct-button');
+        console.log('Button after adding class:', button.className);
     } else {  
         feedbackElement.textContent = 'Отнюдь!';
     }
