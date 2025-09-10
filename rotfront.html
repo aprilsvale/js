@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>TEST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./rotfront.css">
+    <link rel="stylesheet" href="./rotfront.js">
+</head>
+<body>
+    <h1>Тест на знание РотФронт</h1>
+    <div id="quiz-container">
+        <div id="start-container">
+            <button id="start-btn">Начать тест</button>
+        </div>
+        <div id="question-container" style="display: none;">
+            <div id="question"></div>
+            <div id="answers"></div>
+            <div id="input-container" style="display: none;">
+                <input type="text" id="input-answer" placeholder="Введите ваш ответ...">
+                <button id="submit-answer">Ответить</button>
+            </div>
+            <div id="feedback"></div>
+        </div>
+        <div id="result-container">
+            <h2>Результаты теста</h2>
+            <p id="score"></p>
+            <p id="result-message"></p>
+            <button id="restart-btn">Перезапустить тест</button>
+        </div>
+    </div>
+    <script src="rotfrontt.js"></script>
+</body>
