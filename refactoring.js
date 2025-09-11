@@ -88,3 +88,11 @@ const myOrder = {
 };
 
 processOrder(myOrder);
+
+
+
+
+const shallowCopyStudent = {...student};
+shallowCopyStudent.age = 22;
+
+console.log(student.age);
