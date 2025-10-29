@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Форма регистрации</h1>
+
+<form id="registrationForm">
+    <div>
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+
+    <div>
+        <label for="city">Город:</label>
+        <input type="text" id="city" name="city" required>
+    </div>
+
+    <div>
+        <button type="submit">Зарегистрироваться</button>
+    </div>
+
+</form>
+
+<div id="contactInfo">
+    <h2>Сохраненные данные:</h2>
+    <p>Имя: <span id="displayName"></span></p>
+    <p>Город: <span id="displayCity"></span></p>
+    <p>Email: <span id="displayEmail"></span></p>
+</div>
+
+<script>
+
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const data = {
+            name: document.getElementById('name').value,
+            city: document.getElementById('city').value,
+            email: document.getElementById('email').value
+        };
+
+
+        localStorage.setItem('contactData', JSON.stringify(data));
+
+
+        displayData();
+
+
+        this.reset();
+    });
+
+
+    function displayData() {
+
+        const savedDataJSON = localStorage.getItem('contactData');
+
+
+        if (savedDataJSON) {
+
+            const savedData = JSON.parse(savedDataJSON);
+
+
+            document.getElementById('displayName').textContent = savedData.name;
+
+            document.getElementById('displayCity').textContent = savedData.city;
+
+            document.getElementById('displayEmail').textContent = savedData.email;
+
+
+            console.log('Данные из LocalStorage:');
+            console.log('Имя:', savedData.name);
+            console.log('Город:', savedData.city);
+            console.log('Email:', savedData.email);
+        }
+    }
+
+
+    displayData();
+
+</script>
+
+</body>
+</html>

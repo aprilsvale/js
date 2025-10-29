@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spending</title>
+</head>
+<body>
+<h1>Учет расходов</h1>
+
+<div>
+    <h2>Добавить расход</h2>
+    <form id="expenseForm">
+        <input type="text" id="description" placeholder="Описание" required>
+        <input type="number" id="amount" placeholder="Сумма" required>
+        <input type="date" id="date" required>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+
+<div>
+    <h2>Список расходов</h2>
+    <ul id="expensesList">
+
+        <p>For: <span id="displayFor"></span></p>
+        <p>Price: <span id="displayPrice"></span></p>
+        <p>When: <span id="displayWhen"></span></p>
+
+    </ul>
+</div>
+</body>
+
+<script>
+
+
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const newExpense = {
+            description: document.getElementById('description').value,
+            amount: document.getElementById('amount').value,
+            date: document.getElementById('date').value
+        };
+
+        const expenses = getExpenses();
+        expenses.push(newExpense);
+        saveExpenses(expenses);
+
+        displayExpenses();
+
+        this.reset();
+    });
+
+    function saveExpenses(expenses) {
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+    }
+
+    function getExpenses() {
+        const expensesData = localStorage.getItem('expenses');
+        return expensesData ? JSON.parse(expensesData) : [];
+    }
+
+    function displayExpenses() {
+        const expenses = getExpenses();
+        const expensesList = document.getElementById('expensesList');
+
+        expensesList.innerHTML = '';
+
+        expenses.forEach((expense, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                ${expense.description} - ${expense.amount} руб. (${expense.date})
+                <button onclick="deleteExpense(${index})">Удалить</button>
+            `;
+            expensesList.appendChild(li);
+        });
+    }
+
+    function deleteExpense(index) {
+        const expenses = getExpenses();
+        expenses.splice(index, 1);
+        saveExpenses(expenses);
+        displayExpenses();
+    }
+
+    displayExpenses();
+
+
+
+
+
+
+
+
+
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const data = {
+            description: document.getElementById('description').value,
+            amount: document.getElementById('amount').value,
+            date: document.getElementById('date').value
+        };
+
+
+        localStorage.setItem('spending', JSON.stringify(data));
+
+
+        displayData();
+
+
+        this.reset();
+    });
+
+
+    function displayData() {
+
+        const savedDataJSON = localStorage.getItem('spending');
+
+
+        if (savedDataJSON) {
+
+            const savedData = JSON.parse(savedDataJSON);
+
+            document.getElementById('displayFor').textContent = savedData.description;
+
+            document.getElementById('displayPrice').textContent = savedData.amount;
+
+            document.getElementById('displayWhen').textContent = savedData.date;
+        }
+    }
+
+    displayData();
+
+
+
+
+</script>
+</html>

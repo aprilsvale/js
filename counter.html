@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counter</title>
+</head>
+<body>
+    <p> Time spent here: <span id="counter">00:00:00</span></p>
+</body>
+<script>
+
+    const timeCounter = document.getElementById('counter');
+
+
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    let timerInterval = null;
+
+
+    function initTimer() {
+        const savedTime = sessionStorage.getItem('pageTime');
+        if (savedTime) {
+            const timeParts = savedTime.split(':');
+            hours = parseInt(timeParts[0]) || 0;
+            minutes = parseInt(timeParts[1]) || 0;
+            seconds = parseInt(timeParts[2]) || 0;
+            updateDisplay();
+        }
+
+        startTimer();
+    }
+
+
+    startTimer();
+
+
+    function startTimer() {
+        setInterval(() => {
+            seconds++;
+
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+
+            updateDisplay();
+            saveTime();
+        }, 1000);
+    }
+
+    function updateDisplay() {
+        const formattedTime =
+            String(hours).padStart(2, '0') + ':' +
+            String(minutes).padStart(2, '0') + ':' +
+            String(seconds).padStart(2, '0');
+
+        timeCounter.textContent = formattedTime;
+    }
+
+
+    function saveTime() {
+        const timeString =
+            String(hours).padStart(2, '0') + ':' +
+            String(minutes).padStart(2, '0') + ':' +
+            String(seconds).padStart(2, '0');
+
+        sessionStorage.setItem('pageTime', timeString);
+    }
+
+
+    window.addEventListener('beforeunload', saveTime);
+
+
+    window.addEventListener('load', initTimer);
+</script>
+</html>
