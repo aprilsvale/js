@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="hello"> hello
+        <div id="bye"> bye
+        <div id="luck"> good luck</div>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('hello').addEventListener('click', () => {
+        console.log('Hello clicked');
+    });
+    document.getElementById('bye').addEventListener('click', () => {
+        console.log('Bye clicked');
+        event.stopPropagation();
+    });
+    document.getElementById('luck').addEventListener('click', () => {
+        console.log('Luck clicked');
+    });
+</script>
+</html>
