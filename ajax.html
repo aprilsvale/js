@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Создать новый пост</h1>
+
+<form id="postForm">
+    <div>
+        <label>ID пользователя:</label>
+        <input type="number" name="userId" required>
+    </div>
+
+    <div>
+        <label>Заголовок:</label>
+        <input type="text" name="title" required>
+    </div>
+
+    <div>
+        <label>Текст:</label>
+        <textarea name="body" required></textarea>
+    </div>
+
+    <button type="submit">Создать пост</button>
+</form>
+
+<div id="response"></div>
+
+<script>
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const data = {
+            userId: formData.get('userId'),
+            title: formData.get('title'),
+            body: formData.get('body')
+        };
+
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerHTML =
+                    '<h3>Ответ сервера:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                document.getElementById('response').innerHTML =
+                    '<h3>Ошибка:</h3><pre>' + error + '</pre>';
+            });
+    });
+</script>
+</body>
+</html>
